@@ -24,3 +24,13 @@ def show():
     st.button("Trigger Auto-SOS")
 
     st.text("Backend Integrations: Real-Time Data Processing, Alert System")
+
+# pages/onboarding.py
+import streamlit as st
+
+def show():
+    st.image("assets/logo.png", width=50)
+    st.title("NeuraCare")
+    st.header("Onboarding & Device Connectivity")
+    st.markdown("Welcome to the onboarding process. Here you will connect your devices and set up your profile.")
+    # Add more content here
