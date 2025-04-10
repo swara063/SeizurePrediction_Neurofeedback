@@ -1,1 +1,7 @@
-
+streamlit==0.84.0  # Older version without automatic multipage feature
+firebase-admin==6.0.1  # For Firebase integration
+pyrebase4==4.5.0  # For Firebase authentication
+plotly==5.15.0  # For interactive charts
+pandas==2.1.1  # For data manipulation
+numpy==1.26.0  # For numerical operations
+requests==2.31.0  # For HTTP requests
