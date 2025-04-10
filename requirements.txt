@@ -1,1 +1,9 @@
-
+setuptools
+streamlit==0.84.0
+firebase-admin==6.0.1
+pyrebase4==4.5.0
+plotly==5.15.0
+pandas==2.1.1
+numpy==1.26.0
+requests==2.31.0
+protobuf==3.20.3
