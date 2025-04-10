@@ -1,0 +1,82 @@
+/* assets/styles.css */
+
+/* General body styling */
+body {
+    background-color: #000000; /* Black background */
+    color: #FFFFFF; /* White text */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Logo and title styling */
+.stImage {
+    margin-right: 10px;
+}
+
+.stTitle {
+    color: #FFFFFF; /* White text for the title */
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Button styling */
+.stButton>button {
+    background-color: #32CD32; /* Light green */
+    color: #FFFFFF; /* White text */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.stButton>button:hover {
+    background-color: #228B22; /* Darker green on hover */
+}
+
+/* Selectbox, text input, and checkbox styling */
+.stSelectbox, .stTextInput, .stCheckbox, .stRadio {
+    background-color: #1E1E1E; /* Darker shade for input fields */
+    color: #FFFFFF; /* White text */
+    border: 1px solid #32CD32; /* Light green border */
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 0;
+}
+
+/* Progress bar styling */
+.stProgress {
+    background-color: #32CD32; /* Light green for progress bars */
+}
+
+/* Alert styling */
+.stAlert {
+    background-color: #1E1E1E; /* Darker background for alerts */
+    color: #FFFFFF; /* White text */
+    border-left: 4px solid #32CD32; /* Light green border for alerts */
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* Chart styling */
+.stPlotlyChart, .stVegaLiteChart {
+    background-color: #000000; /* Black background for charts */
+    color: #FFFFFF; /* White text for chart labels */
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1E1E1E; /* Darker track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #32CD32; /* Light green thumb */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #228B22; /* Darker green on hover */
+}
