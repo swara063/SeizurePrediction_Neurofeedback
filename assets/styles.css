@@ -1,82 +1,144 @@
-/* assets/styles.css */
-
-/* General body styling */
-body {
-    background-color: #000000; /* Black background */
-    color: #FFFFFF; /* White text */
-    font-family: 'Arial', sans-serif;
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Logo and title styling */
-.stImage {
+/* Body Styling */
+body {
+    background-color: white;
+    color: #333333; /* Grey text */
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+    overflow-x: hidden;
+}
+
+/* NeuraCare Logo and Name Styling */
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    padding-left: 20px;
+}
+
+.logo-container img {
+    width: 40px; /* Adjust the logo size */
+    height: auto;
     margin-right: 10px;
 }
 
-.stTitle {
-    color: #FFFFFF; /* White text for the title */
+.logo-container h1 {
     font-size: 24px;
     font-weight: bold;
+    color: #333333;
 }
 
-/* Button styling */
-.stButton>button {
-    background-color: #32CD32; /* Light green */
-    color: #FFFFFF; /* White text */
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin: 5px 0;
-    cursor: pointer;
-}
-
-.stButton>button:hover {
-    background-color: #228B22; /* Darker green on hover */
-}
-
-/* Selectbox, text input, and checkbox styling */
-.stSelectbox, .stTextInput, .stCheckbox, .stRadio {
-    background-color: #1E1E1E; /* Darker shade for input fields */
-    color: #FFFFFF; /* White text */
-    border: 1px solid #32CD32; /* Light green border */
-    border-radius: 5px;
-    padding: 5px;
-    margin: 5px 0;
-}
-
-/* Progress bar styling */
-.stProgress {
-    background-color: #32CD32; /* Light green for progress bars */
-}
-
-/* Alert styling */
-.stAlert {
-    background-color: #1E1E1E; /* Darker background for alerts */
-    color: #FFFFFF; /* White text */
-    border-left: 4px solid #32CD32; /* Light green border for alerts */
-    padding: 10px;
-    margin: 10px 0;
-}
-
-/* Chart styling */
-.stPlotlyChart, .stVegaLiteChart {
-    background-color: #000000; /* Black background for charts */
-    color: #FFFFFF; /* White text for chart labels */
-}
-
-/* Custom scrollbar */
+/* Scrollbar Styling */
 ::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #1E1E1E; /* Darker track */
+    width: 12px;
+    background-color: #f0f0f0;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #32CD32; /* Light green thumb */
+    background-color: black;
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #228B22; /* Darker green on hover */
+    background-color: #4CAF50; /* Green on touch */
 }
+
+/* Links Styling */
+a {
+    color: #4CAF50; /* Green color for links */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Buttons Styling */
+button {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Form Inputs Styling */
+input, select, textarea {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #4CAF50; /* Green border when focused */
+}
+
+/* Section and Container Styling */
+section, .container {
+    padding: 20px;
+    margin: 20px;
+    background-color: #f9f9f9; /* Light background for sections */
+    border-radius: 8px;
+}
+
+h1, h2, h3 {
+    color: #333333; /* Grey titles */
+}
+
+/* Hover Effects */
+.card {
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Input Validation Error */
+input.error {
+    border-color: red;
+}
+
+textarea.error {
+    border-color: red;
+}
+
+/* Adding Green Shades for Better Contrast */
+.green-light {
+    color: #66bb6a; /* Lighter Green */
+}
+
+.green-dark {
+    color: #388e3c; /* Darker Green */
+}
+
+button.green-button {
+    background-color: #388e3c; /* Dark Green */
+}
+
+/* General Hover Effects for Green Buttons */
+button.green-button:hover {
+    background-color: #4CAF50; /* Light green on hover */
+}
+
