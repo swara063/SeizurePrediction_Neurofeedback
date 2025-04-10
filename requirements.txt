@@ -5,3 +5,4 @@ plotly==5.15.0  # For interactive charts
 pandas==2.1.1  # For data manipulation
 numpy==1.26.0  # For numerical operations
 requests==2.31.0  # For HTTP requests
+protobuf==3.20.3
