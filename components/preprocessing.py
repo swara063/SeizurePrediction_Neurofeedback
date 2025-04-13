@@ -54,18 +54,19 @@ def preprocess_eeg_segment(segment, fs=256):
 # Main preprocessing function to reshape data to (1, 1, 22, 256, 64)
 def preprocess_data_for_model(data):
     """
-    Preprocess the EEG data for input to the model.
-    data: shape (n_channels, window_size, n_chan_features) for a single segment
+    Preprocess EEG segment and expand features to match model input shape.
+    Input: (22, 256, 4)
+    Output: (1, 22, 256, 64)
     """
-    # Step 1: Preprocess the segment
-    processed_data = preprocess_eeg_segment(data)
+    processed_data = preprocess_eeg_segment(data)  # Expected: (22, 256, 4)
 
-    # Step 2: Reshape data to (1, 1, 22, 256, 64)
-    n_channels, window_size, n_chan_features = processed_data.shape[1:4]
-    # Reshaping (1, 1, 22, 256, 64)
-    processed_data = processed_data.reshape(1, 1, n_channels, window_size, n_chan_features)
+    # Pad the last dimension from 4 → 64 (zero-padding)
+    if processed_data.shape[-1] < 64:
+        pad_width = 64 - processed_data.shape[-1]
+        processed_data = np.pad(processed_data, ((0, 0), (0, 0), (0, pad_width)), mode='constant')
+    elif processed_data.shape[-1] > 64:
+        raise ValueError(f"Too many features: got {processed_data.shape[-1]}, expected 64")
 
-    return processed_data
+    # Add batch dimension → (1, 22, 256, 64)
+    return processed_data[np.newaxis, ...]
 
-
-#neelam

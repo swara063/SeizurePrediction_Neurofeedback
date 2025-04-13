@@ -18,47 +18,39 @@ st.markdown("Stay informed with real-time brainwave and wearable data.")
 
 st.markdown("---")
 
-# ✅ Real-Time EEG Simulation & Prediction
+# ✅ Load Prediction Model
 model = load_prediction_model()
 
 st.title("Real-Time EEG Monitoring (Simulated)")
 
 placeholder = st.empty()
 
-run = st.checkbox("Start Simulation")
+run = st.checkbox("Start Simulation", key="start_simulation_checkbox")
 
 while run:
-    # Generate dummy EEG data (simulated)
+    # Generate dummy EEG data
     raw_eeg = generate_dummy_eeg()
     
-    # Check the shape of the generated EEG data
     st.write(f"EEG shape: {raw_eeg.shape}")  # Debugging
-    
+
     # Pre-process the raw EEG data
-    processed_eeg = preprocess_data_for_model(raw_eeg)
+    processed_eeg = preprocess_data_for_model(raw_eeg)  # Shape: (1, 22, 256, 64)
     
-    # Model input preparation
-    model_input = processed_eeg[np.newaxis, ...]  # Shape: (1, 1, 22, 256, 64)
+    # Predict seizure risk
+    prediction = model.predict(processed_eeg)
     
-    # Predict the seizure risk
-    prediction = model.predict(model_input)
-    
-    # Check the shape of the prediction output
     st.write(f"Prediction shape: {prediction.shape}")  # Debugging
     
-    # Assuming binary prediction, and we need the first element
     prediction_value = prediction[0][0]
     
-    # Display the predicted seizure probability
+    # Display predicted seizure probability
     placeholder.metric("Seizure Probability", f"{prediction_value:.2f}")
     
-    # Extract features like alpha, beta, and delta from the raw EEG data
-    # Assuming these are computed from the frequency band analysis of the EEG data
-    alpha_waves = np.mean(raw_eeg[:, :, 0])  # Placeholder for alpha waves computation
-    beta_waves = np.mean(raw_eeg[:, :, 1])  # Placeholder for beta waves computation
-    delta_waves = np.mean(raw_eeg[:, :, 2])  # Placeholder for delta waves computation
+    # Simulated brainwave activity
+    alpha_waves = np.mean(raw_eeg[:, :, 0])
+    beta_waves = np.mean(raw_eeg[:, :, 1])
+    delta_waves = np.mean(raw_eeg[:, :, 2])
     
-    # Live EEG Monitoring Section
     st.subheader("🧠 Live EEG Monitoring")
     st.markdown(f"**Brainwave Activity**: Alpha: {alpha_waves:.2f} | Beta: {beta_waves:.2f} | Delta: {delta_waves:.2f}")
     
@@ -67,58 +59,52 @@ while run:
     col2.metric("Beta Waves", f"{beta_waves:.2f}")
     col3.metric("Delta Waves", f"{delta_waves:.2f}")
 
-    if st.button("🔄 Refresh EEG Data"):
+    if st.button("🔄 Refresh EEG Data", key="refresh_eeg_button"):
         st.success("EEG data updated successfully!")
 
     st.markdown("---")
 
-    # AI-Powered Risk Prediction Section
     st.subheader("🤖 AI-Powered Risk Prediction")
     st.markdown(f"**Seizure Risk**: {'High' if prediction_value > 0.6 else 'Moderate' if prediction_value > 0.3 else 'Low'} ({prediction_value*100:.2f}%)")
     
     col4, col5 = st.columns(2)
     col4.metric("Seizure Risk", f"{'High' if prediction_value > 0.6 else 'Moderate' if prediction_value > 0.3 else 'Low'} ({prediction_value*100:.2f}%)")
-    col5.progress(prediction_value, text=f"{prediction_value*100:.2f}% Risk Level")
+    col5.progress(float(prediction_value), text=f"{float(prediction_value)*100:.2f}% Risk Level")
     
-    if st.button("🔄 Update Prediction"):
+    if st.button("🔄 Update Prediction", key="update_prediction_button"):
         st.info("AI risk prediction updated.")
     
-    # Full Model Prediction Section
     st.markdown("### 📊 Full Model Prediction (EEG + Wearables)")
-    accuracy = np.random.uniform(0.8, 0.9)  # Simulated accuracy value
+    accuracy = np.random.uniform(0.8, 0.9)
     st.metric("Prediction Accuracy", f"{accuracy*100:.2f}%")
     st.progress(accuracy, text=f"{accuracy*100:.2f}% Accuracy")
     
-    if st.button("🔁 Refresh Full Prediction"):
+    if st.button("🔁 Refresh Full Prediction", key="refresh_full_prediction_button"):
         st.info("Full model prediction refreshed!")
     
     st.markdown("---")
     
-    # Wearable-Only Prediction
     st.subheader("⌚ Wearable-Only Prediction")
-    wearable_accuracy = np.random.uniform(0.4, 0.6)  # Simulated wearable-only prediction accuracy
+    wearable_accuracy = np.random.uniform(0.4, 0.6)
     st.metric("Accuracy", f"{wearable_accuracy*100:.2f}%")
     st.progress(wearable_accuracy, text=f"{wearable_accuracy*100:.2f}% Accuracy")
     
-    if st.button("🔄 Update Wearable Prediction"):
+    if st.button("🔄 Update Wearable Prediction", key="update_wearable_prediction_button"):
         st.warning("Wearable prediction updated with limited accuracy.")
     
     st.markdown("---")
     
-    # Emergency Alert System
     st.subheader("🚨 Emergency Alert System")
     alert_col1, alert_col2 = st.columns(2)
     with alert_col1:
-        if st.button("📢 Send Manual Alert"):
+        if st.button("📢 Send Manual Alert", key="send_manual_alert_button"):
             st.error("⚠️ Manual SOS sent!")
     with alert_col2:
-        if st.button("🧭 Start Auto-SOS Countdown"):
+        if st.button("🧭 Start Auto-SOS Countdown", key="start_auto_sos_button"):
             st.warning("Auto-SOS initiated. Countdown: 5 seconds...")
 
     st.markdown("---")
     
-    # Show the raw EEG data for channel 0, feature 0
-    st.line_chart(raw_eeg[0, :, 0])  # Show EEG data for channel 0, feature 0
+    st.line_chart(raw_eeg[0, :, 0])
     
-    # Sleep for 1 second before next data update
     time.sleep(1)
