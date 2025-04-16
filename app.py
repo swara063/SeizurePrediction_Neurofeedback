@@ -58,7 +58,7 @@ with col4:
     st.markdown("""
         <div class="metric-box">
             <h4>Connected Devices</h4>
-            <p>EEG Headset, Smartwatch</p>
+            <p>Strava API</p>
         </div>
     """, unsafe_allow_html=True)
 
