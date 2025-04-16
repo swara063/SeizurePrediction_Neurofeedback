@@ -63,7 +63,7 @@ with st.form("data_sources_form"):
     sleep = st.checkbox("Sleep Monitor", value=True)
     save_data = st.form_submit_button("💾 Save Settings")
     if save_data:
-        st.success("✅ Data source settings saved!")
+        st.success("All Data Sources not connected.")
 
 
 
