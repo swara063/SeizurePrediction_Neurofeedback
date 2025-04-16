@@ -63,11 +63,6 @@ with col4:
     """, unsafe_allow_html=True)
 
 
-# ✅ Navigation to Neurofeedback Therapy Page
-if st.button("🧘 Neurofeedback Therapy"):
-    st.switch_page("pages/Neurofeedback_Therapy.py")
-
-
 # ✅ Light Green Section for Brainwave Activity and Feed
 st.markdown("""
     <div style="background-color: #e6f4ea; padding: 20px; border-radius: 10px;">
