@@ -20,10 +20,7 @@ session_status = st.radio("Session Status:", ["Not Started", "In Progress", "Com
 col1, col2 = st.columns(2)
 with col1:
     if st.button("▶️ Start Session"):
-        st.success("Session started.")
-with col2:
-    if st.button("💾 Save Session Data"):
-        st.success("Session data saved.")
+        st.success("EEG Headset Not available.")
 
 st.markdown("---")
 
@@ -41,9 +38,6 @@ st.subheader("📊 Neurofeedback Dashboard")
 st.markdown("**Current Training Progress:** 65%")
 st.progress(0.65, text="65% Complete")
 
-if st.button("🔄 Refresh Progress"):
-    st.success("Training progress updated!")
-
 st.markdown("---")
 
 # ✅ AI-Personalized Feedback
@@ -52,25 +46,11 @@ st.markdown("Real-time Brainwave Adaptation: **Ongoing**")
 
 st.progress(0.70, text="Adaptive Feedback 70%")
 
-if st.button("🔄 Update Feedback"):
-    st.success("Adaptive feedback updated.")
-
 st.markdown("---")
 
 # ✅ Threshold-Based Activation
 st.subheader("📉 Threshold-Based Activation")
 st.markdown("Seizure Threshold Detected: **No**")
 
-if st.button("📶 Monitor Threshold"):
-    st.warning("Monitoring seizure threshold...")
-
 st.markdown("---")
 
-# ✅ Navigation
-colA, colB, colC = st.columns([1, 2, 1])
-with colA:
-    if st.button("⬅️ Back to Real-Time Monitoring"):
-        st.switch_page("pages/RealTime_Monitoring.py")
-with colC:
-    if st.button("➡️ Next: Reports & History"):
-        st.switch_page("pages/Reports_And_History.py")
