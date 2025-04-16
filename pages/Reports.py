@@ -68,9 +68,6 @@ st.markdown("""
 - ✅ Keep your devices connected for accurate tracking.
 """)
 
-if st.button("🔄 Refresh Insights"):
-    st.info("Recommendations updated.")
-
 st.markdown("---")
 
 # ✅ Report Access
@@ -78,17 +75,7 @@ st.subheader("📥 Detailed Report Access")
 colA, colB = st.columns(2)
 with colA:
     st.download_button("📄 Download PDF Report", data="PDF Content Placeholder", file_name="NeuraCare_Report.pdf")
-with colB:
-    st.button("🔍 View Report Online")  # Future integration placeholder
 
 st.markdown("---")
 
-# ✅ Navigation
-col1, col2, col3 = st.columns([1, 2, 1])
-with col1:
-    if st.button("⬅️ Back to Therapy"):
-        st.switch_page("pages/Neurofeedback_Therapy.py")
-with col3:
-    if st.button("➡️ Next: Settings"):
-        st.switch_page("pages/Settings.py")
 
