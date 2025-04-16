@@ -1,71 +1,90 @@
 import streamlit as st
+from datetime import datetime
 
-def home_page():
-    st.set_page_config(page_title="NeuroFlow Dashboard", layout="wide")
-    
-    # --- Header remains unchanged ---
-    st.title("NeuroFlow Dashboard")
-    st.markdown("---")
-    
-    # === Modified Stats Section ===
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.markdown("""
-        <div style='border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; margin: 10px;'>
-            <h3 style='color: #1e88e5; margin-bottom: 15px;'>Today's Goal</h3>
-            <div style='font-size: 32px; font-weight: bold; color: #43a047;'>70%</div>
+# ✅ Page title and favicon
+st.set_page_config(page_title="NeuraCare", page_icon="assets/logo.png", layout="wide")
+
+# ✅ Inject CSS
+with open("assets/styles.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+# ✅ Session State Initialization
+if 'page' not in st.session_state:
+    st.session_state.page = 'home'
+
+# ✅ Main Content
+logo_col, title_col = st.columns([1, 6])
+with logo_col:
+    st.image("assets/logo.png", width=60)  # Place your logo image in assets folder
+with title_col:
+    st.markdown("<h1 style='font-size: 50px; margin-bottom: 0;'>NeuraCare</h1>", unsafe_allow_html=True)
+    st.subheader("For Seizure Prediction & Brainwave Redirection")
+
+# ✅ Info Box
+st.markdown("""
+    <div class="info-box">
+        <h3>Welcome to Your Personal Brain Trainer</h3>
+        <p>Our non-invasive neurofeedback system uses AI and real-time brain monitoring to help manage seizures and mental well-being.</p>
+    </div>
+""", unsafe_allow_html=True)
+
+# ✅ Add space after info box
+st.markdown("<br>", unsafe_allow_html=True)
+
+# ✅ Uniform Metric Boxes
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    st.markdown("""
+        <div class="metric-box">
+            <h4>Today's Goal</h4>
+            <p>70%</p>
         </div>
-        """, unsafe_allow_html=True)
-
-    with col2:
-        st.markdown("""
-        <div style='border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; margin: 10px;'>
-            <h3 style='color: #1e88e5; margin-bottom: 15px;'>Seizure Risk Level</h3>
-            <div style='font-size: 24px; font-weight: bold; color: #43a047;'>
-                Low <span style='font-size: 16px; color: #757575;'>(15%)</span>
-            </div>
+    """, unsafe_allow_html=True)
+with col2:
+    st.markdown("""
+        <div class="metric-box">
+            <h4>Seizure Risk Level</h4>
+            <p>Low (15%)</p>
         </div>
-        """, unsafe_allow_html=True)
-
-    with col3:
-        st.markdown("""
-        <div style='border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; margin: 10px;'>
-            <h3 style='color: #1e88e5; margin-bottom: 15px;'>AI Training Progress</h3>
-            <div style='font-size: 32px; font-weight: bold; color: #43a047;'>68%</div>
+    """, unsafe_allow_html=True)
+with col3:
+    st.markdown("""
+        <div class="metric-box">
+            <h4>AI Training Progress</h4>
+            <p>68%</p>
         </div>
-        """, unsafe_allow_html=True)
-
-    # === Modified Connected Devices ===
-    st.markdown("---")
-    st.subheader("Connected Devices")
-    with st.container():
-        st.markdown("""
-        <div style='border-left: 4px solid #1e88e5; padding: 15px; margin: 10px; background-color: #f5f5f5;'>
-            <div style='font-size: 18px; font-weight: bold;'>Strava API</div>
-            <div style='color: #757575;'>Last synced: 2h ago</div>
+    """, unsafe_allow_html=True)
+with col4:
+    st.markdown("""
+        <div class="metric-box">
+            <h4>Connected Devices</h4>
+            <p>EEG Headset, Smartwatch</p>
         </div>
-        """, unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-    # === Modified Activity Feed ===
-    st.markdown("---")
-    st.subheader("Activity Feed")
-    activities = [
-        {"title": "Morning Run", "time": "7:30 AM", "duration": "42 mins", "distance": "5.2 km"},
-        {"title": "Cycling Session", "time": "4:15 PM", "duration": "1h 18m", "distance": "18.3 km"}
-    ]
-    
-    for activity in activities:
-        with st.container():
-            st.markdown(f"""
-            <div style='border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin: 10px;'>
-                <div style='font-size: 16px; font-weight: bold;'>{activity['title']}</div>
-                <div style='display: flex; justify-content: space-between; color: #757575;'>
-                    <span>{activity['time']}</span>
-                    <span>{activity['duration']}</span>
-                    <span>{activity['distance']}</span>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
 
-if __name__ == "__main__":
-    home_page()
+# ✅ Navigation to Neurofeedback Therapy Page
+if st.button("🧘 Neurofeedback Therapy"):
+    st.switch_page("pages/Neurofeedback_Therapy.py")
+
+
+# ✅ Light Green Section for Brainwave Activity and Feed
+st.markdown("""
+    <div style="background-color: #e6f4ea; padding: 20px; border-radius: 10px;">
+        <h3>Live Brainwave Activity</h3>
+""", unsafe_allow_html=True)
+
+st.line_chart([0.2, 0.3, 0.5, 0.45, 0.6])  # Placeholder EEG Graph
+
+st.markdown("<h3>Activity Feed</h3>", unsafe_allow_html=True)
+with st.container():
+    st.markdown("- ✅ EEG Connected at 09:45 AM")
+    st.markdown("- 📈 AI Training Progressed to 68%")
+    st.markdown("- ⚠️ Low seizure risk detected at 10:00 AM")
+    st.markdown("- 🎯 Last neurofeedback session: Successful")
+
+st.markdown("</div>", unsafe_allow_html=True)
+
+st.markdown("---")
+st.caption("© 2025 Neurofeedback System. All rights reserved.")
+
