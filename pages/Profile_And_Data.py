@@ -34,9 +34,6 @@ eeg_col1.metric("Alpha Waves", "Moderate")
 eeg_col2.metric("Beta Waves", "High Focus")
 eeg_col3.metric("Seizure Risk", "Low (12%)")
 
-if st.button("🔄 Refresh EEG Data"):
-    st.info("EEG data refreshed!")
-
 st.markdown("---")
 
 # ✅ Wearables Data Dashboard
@@ -45,14 +42,9 @@ wear1, wear2, wear3 = st.columns(3)
 wear1.metric("Heart Rate", "72 bpm")
 wear2.metric("Blood Pressure", "120/80 mmHg")
 wear3.metric("SpO2", "98%")
-
 wear4, wear5, wear6 = st.columns(3)
 wear4.metric("Sleep", "7.5 hrs")
 wear5.metric("Stress Level", "Moderate")
-wear6.progress(0.80, text="80% Data Synced")
-
-if st.button("🔄 Refresh Wearable Data"):
-    st.success("Wearables data refreshed!")
 
 st.markdown("---")
 
@@ -73,11 +65,5 @@ with st.form("data_sources_form"):
     if save_data:
         st.success("✅ Data source settings saved!")
 
-# ✅ Device Status
-st.markdown("### ⚠️ Wearable Disconnection Warning")
-st.info("Status: All Devices Connected ✅")
-
-if st.button("🔌 Simulate Disconnect"):
-    st.warning("⚠️ Wearable device disconnected!")
 
 
