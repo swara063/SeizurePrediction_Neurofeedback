@@ -7,6 +7,7 @@ import requests
 from datetime import datetime, timedelta
 import pandas as pd
 import altair as alt
+import os
 
 # ✅ Page title and favicon
 st.set_page_config(page_title="NeuraCare", page_icon="assets/logo.png", layout="wide")
@@ -59,18 +60,37 @@ if uploaded_file:
                 try:
                     user = auth.get_user_by_email(email)
                     st.success(f"✅ Welcome back, {user.email}!")
-                except:
-                    st.error("❌ Login failed. Check your credentials.")
+                    st.session_state['logged_in'] = True
+                except auth.UserNotFoundError:
+                    st.error("❌ User not found. Please sign up first.")
+                except ValueError:
+                    st.error("❌ Invalid email format.")
+                except Exception as e:
+                    st.error(f"❌ Login failed: {str(e)}")
 
         elif selected == "Sign Up":
             new_email = st.text_input("New Email")
             new_password = st.text_input("New Password", type="password")
             if st.button("Sign Up"):
                 try:
-                    user = auth.create_user(email=new_email, password=new_password)
-                    st.success(f"✅ Account created for {user.email}!")
-                except:
-                    st.error("❌ Failed to create account. Try again.")
+                    if len(new_password) < 6:
+                        st.error("❌ Password must be at least 6 characters")
+                    else:
+                        user = auth.create_user(
+                            email=new_email,
+                            password=new_password,
+                            email_verified=False
+                        )
+                        st.success(f"✅ Account created for {user.email}!")
+                        st.session_state['logged_in'] = True
+                except auth.EmailAlreadyExistsError:
+                    st.error("❌ Email already in use. Please login instead.")
+                except auth.WeakPasswordError:
+                    st.error("❌ Password is too weak. Use at least 6 characters.")
+                except ValueError as e:
+                    st.error(f"❌ Invalid input: {str(e)}")
+                except Exception as e:
+                    st.error(f"❌ Account creation failed: {str(e)}")
 
         # --- Onboarding Steps ---
         st.markdown("---")
@@ -176,5 +196,10 @@ if uploaded_file:
 
     except Exception as e:
         st.error(f"Firebase initialization failed: {e}")
+    finally:
+        try:
+            os.unlink(tmp_file_path)
+        except:
+            pass
 else:
     st.warning("👆 Upload Firebase credentials to proceed with onboarding.")
