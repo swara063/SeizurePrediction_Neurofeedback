@@ -75,7 +75,7 @@ st.markdown("---")
 # ✅ Report Download Section
 if st.button("⚡ Download Latest Report"):
     with st.spinner("Generating report..."):
-        time.sleep(10)
+        time.sleep(2)
     
         file_path = os.path.join("assets", "report3.pdf")
         with open(file_path, "rb") as file:
