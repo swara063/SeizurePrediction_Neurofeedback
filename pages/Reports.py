@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
+import time
+import os
 
 # ✅ Page Setup
 st.set_page_config(page_title="Reports & Insights", page_icon="assets/logo.png", layout="wide")
@@ -70,12 +72,18 @@ st.markdown("""
 
 st.markdown("---")
 
-# ✅ Report Access
-st.subheader("📥 Detailed Report Access")
-colA, colB = st.columns(2)
-with colA:
-    st.download_button("📄 Download PDF Report", data="PDF Content Placeholder", file_name="NeuraCare_Report.pdf")
+# ✅ Report Download Section
+if st.button("⚡ Download Latest Report"):
+    with st.spinner("Generating report..."):
+        time.sleep(10)
+    
+        file_path = os.path.join("assets", "report3.pdf")
+        with open(file_path, "rb") as file:
+            st.download_button(
+                label="Download Report",
+                data=file,
+                file_name="neurofeedback_report.pdf",
+                mime="application/pdf"
+            )
 
 st.markdown("---")
-
-
