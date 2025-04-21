@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import datetime
-from utils.dummy_eeg_generator import generate_dummy_eeg  
+from utils.eeg import generate_dummy_eeg  
 from components.preprocessing import preprocess_data_for_model
 from models.model_loader import load_prediction_model
 import numpy as np
