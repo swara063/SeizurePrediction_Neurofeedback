@@ -20,47 +20,6 @@ st.markdown("Stay informed with real-time brainwave and wearable data.")
 
 st.markdown("---")
 
-# ✅ Load Prediction Model
-model = load_prediction_model()
-
-st.title("Real-Time EEG Monitoring")
-
-placeholder = st.empty()
-
-run = st.checkbox("Start Simulation", key="start_simulation_checkbox")
-
-while run:
-    # Generate dummy EEG data
-    raw_eeg = generate_dummy_eeg()
-    
-    st.write(f"EEG shape: {raw_eeg.shape}")  # Debugging
-
-    # Pre-process the raw EEG data
-    processed_eeg = preprocess_data_for_model(raw_eeg)  # Shape: (1, 22, 256, 64)
-    
-    # Predict seizure risk
-    prediction = model.predict(processed_eeg)
-        
-    st.write(f"Prediction shape: {prediction.shape}")  # Debugging
-    
-    prediction_value = prediction[0][0]
-    
-    # Display predicted seizure probability
-    placeholder.metric("Seizure Probability", f"{prediction_value:.2f}")
-    
-    # Simulated brainwave activity
-    alpha_waves = np.mean(raw_eeg[:, :, 0])
-    beta_waves = np.mean(raw_eeg[:, :, 1])
-    delta_waves = np.mean(raw_eeg[:, :, 2])
-    
-    st.subheader("🧠 Live EEG Monitoring")
-    st.markdown(f"*Brainwave Activity*: Alpha: {alpha_waves:.2f} | Beta: {beta_waves:.2f} | Delta: {delta_waves:.2f}")
-    
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Alpha Waves", f"{alpha_waves:.2f}")
-    col2.metric("Beta Waves", f"{beta_waves:.2f}")
-    col3.metric("Delta Waves", f"{delta_waves:.2f}")
-
 
     st.markdown("---")
 
