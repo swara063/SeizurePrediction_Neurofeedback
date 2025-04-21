@@ -136,7 +136,7 @@ if uploaded_file:
             st.subheader("🚴 Connect with Strava")
 
             # STRAVA SETUP
-            ACCESS_TOKEN = "cb578dbbf56e027e5c4987ae8f6cb79cb1fd0abe"  # Replace if needed
+            ACCESS_TOKEN = "3f948e2f3bc3b251c26d25c258f707eec3f3eb20"  # Replace if needed
             HEADERS = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
 
             def fetch_profile():
