@@ -1,7 +1,7 @@
 import streamlit as st
 import time
 import numpy as np
-from utils.dummy_eeg_generator import generate_dummy_eeg  
+from utils.eeg import generate_dummy_eeg  
 from components.preprocessing import preprocess_data_for_model
 from models.model_loader import load_prediction_model
 import pandas as pd
