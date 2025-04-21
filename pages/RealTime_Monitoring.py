@@ -23,7 +23,7 @@ col2.metric("Beta Waves", "30%")
 col3.metric("Delta Waves", "25%")
 
 if st.button("🔄 Refresh EEG Data"):
-    st.success("EEG data updated successfully!")
+    st.error("Failed to update EEG data. Please try again.")
 
 st.markdown("---")
 
