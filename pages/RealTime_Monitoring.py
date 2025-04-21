@@ -1,8 +1,4 @@
 import streamlit as st
-import time
-import numpy as np
-import pandas as pd
-
 
 # ✅ Page Setup
 st.set_page_config(page_title="Real-Time Monitoring", page_icon="assets/logo.png", layout="wide")
@@ -17,59 +13,58 @@ st.markdown("Stay informed with real-time brainwave and wearable data.")
 
 st.markdown("---")
 
+# ✅ Live EEG Monitoring Section
+st.subheader("🧠 Live EEG Monitoring")
+st.markdown("**Brainwave Activity**: Alpha: 45% | Beta: 30% | Delta: 25%")
 
-    st.subheader("🤖 AI-Powered Risk Prediction")
-    st.markdown(f"*Seizure Risk*: {'High' if prediction_value > 0.6 else 'Moderate' if prediction_value > 0.3 else 'Low'} ({prediction_value*100:.2f}%)")
-    
-    col4, col5 = st.columns(2)
-    col4.metric("Seizure Risk", f"{'High' if prediction_value > 0.6 else 'Moderate' if prediction_value > 0.3 else 'Low'} ({prediction_value*100:.2f}%)")
-    col5.progress(float(prediction_value), text=f"{float(prediction_value)*100:.2f}% Risk Level")
-    
-    
-    st.markdown("### 📊 Full Model Prediction (EEG + Wearables)")
-    accuracy = np.random.uniform(0.8, 0.9)
-    st.metric("Prediction Accuracy", f"{accuracy*100:.2f}%")
-    st.progress(accuracy, text=f"{accuracy*100:.2f}% Accuracy")
-    
+col1, col2, col3 = st.columns(3)
+col1.metric("Alpha Waves", "45%")
+col2.metric("Beta Waves", "30%")
+col3.metric("Delta Waves", "25%")
 
-    st.markdown("---")
-    
-    st.subheader("⌚ Wearable-Only Prediction")
-    wearable_accuracy = np.random.uniform(0.4, 0.6)
-    st.metric("Accuracy", f"{wearable_accuracy*100:.2f}%")
-    st.progress(wearable_accuracy, text=f"{wearable_accuracy*100:.2f}% Accuracy")
-    
+if st.button("🔄 Refresh EEG Data"):
+    st.success("EEG data updated successfully!")
 
-    
-    # Config
-    max_history = 200  # Show only last 200 points for clarity
-    update_interval = 0.1  # Seconds
+st.markdown("---")
 
-    raw_eeg = generate_dummy_eeg()
-    # st.line_chart(raw_eeg[0, :, 0])
-    # Config
-    max_history = 200  # Show only last 200 points for clarity
-    update_interval = 0.1  # Seconds
+# ✅ AI-Powered Risk Prediction Section
+st.subheader("🤖 AI-Powered Risk Prediction")
+col4, col5 = st.columns(2)
+col4.metric("Seizure Risk", "Moderate (60%)")
+col5.progress(0.6, text="60% Risk Level")
 
-    # Streamlit UI
-    st.title("Smooth Real-Time EEG Plot")
-    plot_placeholder = st.empty()
+if st.button("🔄 Update Prediction"):
+    st.info("AI risk prediction updated.")
 
-    # Rolling EEG signal buffer
-    eeg_history = []
+# ✅ Full Model Prediction Section
+st.markdown("### 📊 Full Model Prediction (EEG + Wearables)")
+st.metric("Prediction Accuracy", "85%")
+st.progress(0.85, text="85% Accuracy")
 
-    while True:
-        raw_eeg = generate_dummy_eeg()
-        eeg_history.extend(raw_eeg[0, :, 0])  # Append new data (128 points)
+if st.button("🔁 Refresh Full Prediction"):
+    st.info("Full model prediction refreshed!")
 
-        # Trim to keep only the latest ⁠ max_history ⁠ points
-        if len(eeg_history) > max_history:
-            eeg_history = eeg_history[-max_history:]
+st.markdown("---")
 
-        # Convert to DataFrame
-        df = pd.DataFrame(eeg_history, columns=["EEG Signal"])
+# ✅ Wearable-Only Prediction
+st.subheader("⌚ Wearable-Only Prediction")
+st.metric("Accuracy", "50% (Limited Accuracy)")
+st.progress(0.5, text="50% Accuracy")
 
-        # Display line chart inside the same placeholder
-        plot_placeholder.line_chart(df)
+if st.button("🔄 Update Wearable Prediction"):
+    st.warning("Wearable prediction updated with limited accuracy.")
 
-        time.sleep(update_interval)
+st.markdown("---")
+
+# ✅ Emergency Alert System
+st.subheader("🚨 Emergency Alert System")
+alert_col1, alert_col2 = st.columns(2)
+with alert_col1:
+    if st.button("📢 Send Manual Alert"):
+        st.error("⚠️ Manual SOS sent!")
+with alert_col2:
+    if st.button("🧭 Start Auto-SOS Countdown"):
+        st.warning("Auto-SOS initiated. Countdown: 5 seconds...")
+
+st.markdown("---")
+
