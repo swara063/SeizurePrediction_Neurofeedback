@@ -51,20 +51,5 @@ st.subheader("⌚ Wearable-Only Prediction")
 st.metric("Accuracy", "50% (Limited Accuracy)")
 st.progress(0.5, text="50% Accuracy")
 
-if st.button("🔄 Update Wearable Prediction"):
-    st.warning("Wearable prediction updated with limited accuracy.")
-
-st.markdown("---")
-
-# ✅ Emergency Alert System
-st.subheader("🚨 Emergency Alert System")
-alert_col1, alert_col2 = st.columns(2)
-with alert_col1:
-    if st.button("📢 Send Manual Alert"):
-        st.error("⚠️ Manual SOS sent!")
-with alert_col2:
-    if st.button("🧭 Start Auto-SOS Countdown"):
-        st.warning("Auto-SOS initiated. Countdown: 5 seconds...")
-
 st.markdown("---")
 
