@@ -18,8 +18,6 @@ st.markdown("Stay informed with real-time brainwave and wearable data.")
 st.markdown("---")
 
 
-    st.markdown("---")
-
     st.subheader("🤖 AI-Powered Risk Prediction")
     st.markdown(f"*Seizure Risk*: {'High' if prediction_value > 0.6 else 'Moderate' if prediction_value > 0.3 else 'Low'} ({prediction_value*100:.2f}%)")
     
