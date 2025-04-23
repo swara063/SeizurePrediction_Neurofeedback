@@ -85,8 +85,6 @@ if uploaded_file:
                         st.session_state['logged_in'] = True
                 except auth.EmailAlreadyExistsError:
                     st.error("❌ Email already in use. Please login instead.")
-                except auth.WeakPasswordError:
-                    st.error("❌ Password is too weak. Use at least 6 characters.")
                 except ValueError as e:
                     st.error(f"❌ Invalid input: {str(e)}")
                 except Exception as e:
