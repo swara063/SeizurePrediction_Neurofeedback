@@ -59,7 +59,6 @@ if uploaded_file:
             if st.button("Login"):
                 try:
                     user = auth.get_user_by_email(email)
-                    # Firebase does not check password directly in Python backend, client-side logic required for password validation.
                     st.success(f"✅ Welcome back, {user.email}!")
                     st.session_state['logged_in'] = True
                 except auth.UserNotFoundError:
@@ -86,17 +85,58 @@ if uploaded_file:
                         st.session_state['logged_in'] = True
                 except auth.EmailAlreadyExistsError:
                     st.error("❌ Email already in use. Please login instead.")
+                except auth.WeakPasswordError:
+                    st.error("❌ Password is too weak. Use at least 6 characters.")
                 except ValueError as e:
                     st.error(f"❌ Invalid input: {str(e)}")
                 except Exception as e:
                     st.error(f"❌ Account creation failed: {str(e)}")
 
         # --- Onboarding Steps ---
+        st.markdown("---")
+        st.subheader("🚀 Onboarding Steps")
+        onboarding_step = st.radio(
+            "Select Onboarding Step:",
+            ["Device Pairing", "Device Calibration", "AI Training & Strava"],
+            horizontal=True
+        )
+
+        # --- Step 1: Device Pairing
+        if onboarding_step == "Device Pairing":
+            st.subheader("🔌 Device Pairing")
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("🧠 Connect EEG Headset"):
+                    st.success("EEG Headset connected!")
+            with col2:
+                if st.button("⌚ Connect Wearable Watch"):
+                    st.success("Wearable Watch connected!")
+
+        # --- Step 2: Calibration
+        elif onboarding_step == "Device Calibration":
+            st.subheader("🎛️ Device Calibration")
+            st.write("Calibrating sensors for accurate tracking...")
+            st.progress(80, text="80% Calibrated")
+            st.button("✅ Complete Calibration")
+
+        # --- Step 3: AI Training + Strava
+        elif onboarding_step == "AI Training & Strava":
+            st.subheader("🧠 AI Training Progress")
+            st.write("Your AI adapts with your brain activity.")
+            data = pd.DataFrame({
+                'Session': ['Session 1', 'Session 2', 'Session 3', 'Session 4'],
+                'Accuracy': [65, 70, 75, 80]
+            })
+            chart = alt.Chart(data).mark_line(point=True).encode(
+                x='Session', y='Accuracy'
+            ).properties(height=300)
+            st.altair_chart(chart, use_container_width=True)
+
             st.markdown("---")
             st.subheader("🚴 Connect with Strava")
 
             # STRAVA SETUP
-            ACCESS_TOKEN = "8332cc686e43b010cd9a9a48334172715b56ec76"  # Replace if needed
+            ACCESS_TOKEN = "cb578dbbf56e027e5c4987ae8f6cb79cb1fd0abe"  # Replace if needed
             HEADERS = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
 
             def fetch_profile():
@@ -163,4 +203,3 @@ if uploaded_file:
             pass
 else:
     st.warning("👆 Upload Firebase credentials to proceed with onboarding.")
-
