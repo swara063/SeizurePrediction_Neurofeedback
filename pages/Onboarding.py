@@ -59,8 +59,12 @@ if uploaded_file:
             if st.button("Login"):
                 try:
                     user = auth.get_user_by_email(email)
-                    st.success(f"✅ Welcome back, {user.email}!")
-                    st.session_state['logged_in'] = True
+                    if user:
+                        # This assumes correct password handling, which needs Firebase client-side integration.
+                        st.success(f"✅ Welcome back, {user.email}!")
+                        st.session_state['logged_in'] = True
+                    else:
+                        st.error("❌ User not found. Please sign up first.")
                 except auth.UserNotFoundError:
                     st.error("❌ User not found. Please sign up first.")
                 except ValueError:
@@ -201,3 +205,4 @@ if uploaded_file:
             pass
 else:
     st.warning("👆 Upload Firebase credentials to proceed with onboarding.")
+
