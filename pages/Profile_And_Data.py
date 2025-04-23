@@ -46,14 +46,6 @@ wear4, wear5, wear6 = st.columns(3)
 wear4.metric("Sleep", "7.5 hrs")
 wear5.metric("Stress Level", "Moderate")
 
-st.markdown("---")
-
-# ✅ AI Training Progress
-st.subheader("🧠 AI Training Progress")
-st.write("Your AI assistant is becoming more personalized each day!")
-st.progress(0.65, text="65% Personalized")
-
-st.markdown("---")
 
 # ✅ Data Source Customization
 st.subheader("🛠 Data Source Customization")
@@ -63,7 +55,7 @@ with st.form("data_sources_form"):
     sleep = st.checkbox("Sleep Monitor", value=True)
     save_data = st.form_submit_button("💾 Save Settings")
     if save_data:
-        st.success("All Data Sources not connected.")
+        st.error("All Data Sources not connected.")
 
 
 
