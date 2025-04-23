@@ -52,7 +52,6 @@ st.subheader("🛠 Data Source Customization")
 with st.form("data_sources_form"):
     eeg = st.checkbox("EEG Device", value=True)
     wearable = st.checkbox("Wearable Watch", value=True)
-    sleep = st.checkbox("Sleep Monitor", value=True)
     save_data = st.form_submit_button("💾 Save Settings")
     if save_data:
         st.error("All Data Sources not connected.")
