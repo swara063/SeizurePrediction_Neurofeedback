@@ -1,6 +1,9 @@
 import tensorflow as tf
-from tensorflow.keras.utils import register_keras_serializable
+from tensorflow.keras.layers import Layer
 
-@register_keras_serializable()
+class OutputZeros(Layer):
+    def call(self, inputs):
+        return tf.zeros_like(inputs)
+
 def output_zeros(x):
-    return tf.zeros((tf.shape(x)[0], 1))
+    return tf.zeros_like(x)
