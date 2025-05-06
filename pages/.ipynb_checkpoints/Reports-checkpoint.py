@@ -23,8 +23,8 @@ col2.metric("Avg. Seizure Risk", "Low")
 col3.metric("Sleep Quality", "7.2 hrs/night")
 col4.metric("Stress Trends", "Mild variations")
 
-if st.button("🔄 Refresh Summary"):
-    st.success("Summary refreshed successfully!")
+# if st.button("🔄 Refresh Summary"):
+#     st.success("Summary refreshed successfully!")
 
 st.markdown("---")
 

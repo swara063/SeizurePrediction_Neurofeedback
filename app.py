@@ -1,5 +1,12 @@
 import streamlit as st
 from datetime import datetime
+from utils.dummy_eeg_generator import real_time_eeg_stream
+from components.preprocessing import preprocess_data_for_model
+from models.model_loader import load_prediction_model
+import numpy as np
+import pandas as pd
+import time
+
 
 # ✅ Page title and favicon
 st.set_page_config(page_title="NeuraCare", page_icon="assets/logo.png", layout="wide")
@@ -37,35 +44,30 @@ with col1:
     st.markdown("""
         <div class="metric-box">
             <h4>Today's Goal</h4>
-            <p>70%</p>
+            <p>0%</p>
         </div>
     """, unsafe_allow_html=True)
 with col2:
     st.markdown("""
         <div class="metric-box">
             <h4>Seizure Risk Level</h4>
-            <p>Low (15%)</p>
+            <p>Low (0%)</p>
         </div>
     """, unsafe_allow_html=True)
 with col3:
     st.markdown("""
         <div class="metric-box">
             <h4>AI Training Progress</h4>
-            <p>68%</p>
+            <p>0%</p>
         </div>
     """, unsafe_allow_html=True)
 with col4:
     st.markdown("""
         <div class="metric-box">
             <h4>Connected Devices</h4>
-            <p>EEG Headset, Smartwatch</p>
+            <p>No Devices</p>
         </div>
     """, unsafe_allow_html=True)
-
-
-# ✅ Navigation to Neurofeedback Therapy Page
-if st.button("🧘 Neurofeedback Therapy"):
-    st.switch_page("pages/Neurofeedback_Therapy.py")
 
 
 # ✅ Light Green Section for Brainwave Activity and Feed
@@ -74,7 +76,29 @@ st.markdown("""
         <h3>Live Brainwave Activity</h3>
 """, unsafe_allow_html=True)
 
-st.line_chart([0.2, 0.3, 0.5, 0.45, 0.6])  # Placeholder EEG Graph
+raw_eeg = generate_dummy_eeg()
+st.line_chart(raw_eeg[0, :, 0])
+
+# Config 
+max_history = 200  # Show only last 200 points for clarity
+update_interval = 0.1  # Seconds
+
+raw_eeg = generate_dummy_eeg()
+# st.line_chart(raw_eeg[0, :, 0])
+# Config
+max_history = 200  # Show only last 200 points for clarity
+update_interval = 0.1  # Seconds
+
+# Streamlit UI
+st.title("Smooth Real-Time EEG Plot")
+plot_placeholder = st.empty()
+
+# Rolling EEG signal buffer
+eeg_history = []
+
+
+
+
 
 st.markdown("<h3>Activity Feed</h3>", unsafe_allow_html=True)
 with st.container():
@@ -82,6 +106,7 @@ with st.container():
     st.markdown("- 📈 AI Training Progressed to 68%")
     st.markdown("- ⚠️ Low seizure risk detected at 10:00 AM")
     st.markdown("- 🎯 Last neurofeedback session: Successful")
+
 
 st.markdown("</div>", unsafe_allow_html=True)
 

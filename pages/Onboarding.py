@@ -105,7 +105,7 @@ if uploaded_file:
             st.write("Your AI adapts with your brain activity.")
             data = pd.DataFrame({
                 'Session': ['Session 1', 'Session 2', 'Session 3', 'Session 4'],
-                'Accuracy': [65, 70, 75, 80]
+                'Accuracy': [80, 86, 81, 89]
             })
             chart = alt.Chart(data).mark_line(point=True).encode(
                 x='Session', y='Accuracy'
@@ -116,7 +116,7 @@ if uploaded_file:
             st.subheader("🚴 Connect with Strava")
 
             # STRAVA SETUP
-            ACCESS_TOKEN = "4a24c768b52facd939c63db33fc6218321a8f9c0"  # Replace if needed
+            ACCESS_TOKEN = "3f948e2f3bc3b251c26d25c258f707eec3f3eb20"  # Replace if needed
             HEADERS = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
 
             def fetch_profile():

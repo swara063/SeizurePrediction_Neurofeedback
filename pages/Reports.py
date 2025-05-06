@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
+import time
+import os
 
 # ✅ Page Setup
 st.set_page_config(page_title="Reports & Insights", page_icon="assets/logo.png", layout="wide")
@@ -18,13 +20,11 @@ st.markdown("---")
 # ✅ Monthly Summary
 st.subheader("📆 Monthly Summary")
 col1, col2, col3, col4 = st.columns(4)
-col1.metric("Sessions Completed", "18")
+col1.metric("Sessions Completed", "1")
 col2.metric("Avg. Seizure Risk", "Low")
 col3.metric("Sleep Quality", "7.2 hrs/night")
 col4.metric("Stress Trends", "Mild variations")
 
-if st.button("🔄 Refresh Summary"):
-    st.success("Summary refreshed successfully!")
 
 st.markdown("---")
 
@@ -32,10 +32,10 @@ st.markdown("---")
 st.subheader("📊 Visual Insights")
 
 # Simulated Seizure Risk Trend
-st.markdown("**Seizure Risk Trend (Last 7 Days)**")
+st.markdown("*Seizure Risk Trend (Last 7 Days)*")
 seizure_data = pd.DataFrame({
     "Day": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    "Seizure Risk (%)": [40, 50, 30, 60, 20, 45, 35]
+    "Seizure Risk (%)": [10, 20, 10, 0, 20, 25, 35]
 })
 seizure_chart = alt.Chart(seizure_data).mark_line(point=True).encode(
     x="Day",
@@ -45,7 +45,7 @@ seizure_chart = alt.Chart(seizure_data).mark_line(point=True).encode(
 st.altair_chart(seizure_chart, use_container_width=True)
 
 # Simulated Sleep Quality Chart
-st.markdown("**Sleep Quality (Hours Slept)**")
+st.markdown("*Sleep Quality (Hours Slept)*")
 sleep_data = pd.DataFrame({
     "Day": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     "Hours Slept": [7, 8, 6.5, 7.5, 6, 8.5, 7]
@@ -68,27 +68,20 @@ st.markdown("""
 - ✅ Keep your devices connected for accurate tracking.
 """)
 
-if st.button("🔄 Refresh Insights"):
-    st.info("Recommendations updated.")
-
 st.markdown("---")
 
-# ✅ Report Access
-st.subheader("📥 Detailed Report Access")
-colA, colB = st.columns(2)
-with colA:
-    st.download_button("📄 Download PDF Report", data="PDF Content Placeholder", file_name="NeuraCare_Report.pdf")
-with colB:
-    st.button("🔍 View Report Online")  # Future integration placeholder
+# ✅ Report Download Section
+if st.button("⚡ Download Latest Report"):
+    with st.spinner("Generating report..."):
+        time.sleep(2)
+    
+        file_path = os.path.join("assets", "report3.pdf")
+        with open(file_path, "rb") as file:
+            st.download_button(
+                label="Download Report",
+                data=file,
+                file_name="neurofeedback_report.pdf",
+                mime="application/pdf"
+            )
 
 st.markdown("---")
-
-# ✅ Navigation
-col1, col2, col3 = st.columns([1, 2, 1])
-with col1:
-    if st.button("⬅️ Back to Therapy"):
-        st.switch_page("pages/Neurofeedback_Therapy.py")
-with col3:
-    if st.button("➡️ Next: Settings"):
-        st.switch_page("pages/Settings.py")
-

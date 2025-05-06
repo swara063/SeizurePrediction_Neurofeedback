@@ -21,7 +21,7 @@ with st.form("profile_form"):
     name = col1.text_input("Name")
     age = col2.number_input("Age", min_value=1, max_value=120, step=1)
     medical_history = st.text_area("Medical History", height=100)
-    submitted = st.form_submit_button("💾 Save Profile", key="save_profile_button")
+    submitted = st.form_submit_button("💾 Save Profile")
     if submitted:
         st.success("✅ Profile saved successfully!")
 
@@ -34,8 +34,8 @@ eeg_col1.metric("Alpha Waves", "Moderate")
 eeg_col2.metric("Beta Waves", "High Focus")
 eeg_col3.metric("Seizure Risk", "Low (12%)")
 
-if st.button("🔄 Refresh EEG Data", key="refresh_eeg_button"):
-    st.info("EEG data refreshed!")
+if st.button("🔄 Refresh EEG Data"):
+    st.info("EEG data not refreshed!")
 
 st.markdown("---")
 
@@ -51,8 +51,8 @@ wear4.metric("Sleep", "7.5 hrs")
 wear5.metric("Stress Level", "Moderate")
 wear6.progress(0.80, text="80% Data Synced")
 
-if st.button("🔄 Refresh Wearable Data", key="refresh_wearable_button"):
-    st.success("Wearables data refreshed!")
+if st.button("🔄 Refresh Wearable Data"):
+    st.success("Wearables data not refreshed!")
 
 st.markdown("---")
 
@@ -69,13 +69,13 @@ with st.form("data_sources_form"):
     eeg = st.checkbox("EEG Device", value=True)
     wearable = st.checkbox("Wearable Watch", value=True)
     sleep = st.checkbox("Sleep Monitor", value=True)
-    save_data = st.form_submit_button("💾 Save Settings", key="save_data_sources_button")
+    save_data = st.form_submit_button("💾 Save Settings")
     if save_data:
         st.success("✅ Data source settings saved!")
 
 # ✅ Device Status
-st.markdown("### ⚠️ Wearable Disconnection Warning")
-st.info("Status: All Devices Connected ✅")
+# st.markdown("### ⚠️ Wearable Disconnection Warning")
+# st.info("Status: All Devices Connected ✅")
 
-if st.button("🔌 Simulate Disconnect", key="simulate_disconnect_button"):
+if st.button("🔌 Simulate Disconnect"):
     st.warning("⚠️ Wearable device disconnected!")

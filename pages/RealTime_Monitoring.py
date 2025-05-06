@@ -1,110 +1,50 @@
 import streamlit as st
-import time
 import numpy as np
-from utils.dummy_eeg_generator import generate_dummy_eeg  
-from components.preprocessing import preprocess_data_for_model
+import pandas as pd
+import time
+
+from utils.dummy_eeg_generator import real_time_eeg_stream
 from models.model_loader import load_prediction_model
 
-# ✅ Page Setup
-st.set_page_config(page_title="Real-Time Monitoring", page_icon="assets/logo.png", layout="wide")
+# ---- Page Setup ----
+st.set_page_config(page_title="EEG Prediction", layout="wide")
+st.title("📡 EEG Signal with Real-Time Prediction")
 
-# ✅ Inject CSS
-with open("assets/styles.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-# ✅ Page Title
-st.title("📡 Real-Time Monitoring & Preemptive Prediction")
-st.markdown("Stay informed with real-time brainwave and wearable data.")
-
-st.markdown("---")
-
-# ✅ Load Prediction Model
+# ---- Load Model ----
 model = load_prediction_model()
 
-st.title("Real-Time EEG Monitoring (Simulated)")
+# ---- Initialize EEG Stream and Buffer ----
+stream = real_time_eeg_stream()
+eeg_buffer = np.zeros(256)  # For display
+chart_placeholder = st.empty()
+prediction_placeholder = st.empty()
 
-placeholder = st.empty()
+# ---- Real-time Loop ----
+while True:
+    eeg_window, true_label = next(stream)  # eeg_window shape: (22, 256, 64)
 
-run = st.checkbox("Start Simulation", key="start_simulation_checkbox")
+    # Prediction
+    model_input = eeg_window.reshape(1, 22, 256, 64)
+    prediction = model.predict(model_input)[0][0]
+    risk_level = "High" if prediction > 0.6 else "Moderate" if prediction > 0.3 else "Low"
 
-while run:
-    # Generate dummy EEG data
-    raw_eeg = generate_dummy_eeg()
-    
-    st.write(f"EEG shape: {raw_eeg.shape}")  # Debugging
+    # Update buffer for a single channel (e.g., channel 0 for chart)
+    display_channel = eeg_window[0, :, 0]  # shape: (256,)
+    eeg_buffer = np.roll(eeg_buffer, -256)
+    eeg_buffer[-256:] = display_channel
 
-    # Pre-process the raw EEG data
-    processed_eeg = preprocess_data_for_model(raw_eeg)  # Shape: (1, 22, 256, 64)
-    
-    # Predict seizure risk
-    prediction = model.predict(processed_eeg)
-    
-    st.write(f"Prediction shape: {prediction.shape}")  # Debugging
-    
-    prediction_value = prediction[0][0]
-    
-    # Display predicted seizure probability
-    placeholder.metric("Seizure Probability", f"{prediction_value:.2f}")
-    
-    # Simulated brainwave activity
-    alpha_waves = np.mean(raw_eeg[:, :, 0])
-    beta_waves = np.mean(raw_eeg[:, :, 1])
-    delta_waves = np.mean(raw_eeg[:, :, 2])
-    
-    st.subheader("🧠 Live EEG Monitoring")
-    st.markdown(f"**Brainwave Activity**: Alpha: {alpha_waves:.2f} | Beta: {beta_waves:.2f} | Delta: {delta_waves:.2f}")
-    
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Alpha Waves", f"{alpha_waves:.2f}")
-    col2.metric("Beta Waves", f"{beta_waves:.2f}")
-    col3.metric("Delta Waves", f"{delta_waves:.2f}")
+    # Plot EEG
+    df = pd.DataFrame({"EEG": eeg_buffer})
+    line_color = "red" if true_label == 1 else "blue"
+    chart_placeholder.line_chart(df, use_container_width=True)
 
-    if st.button("🔄 Refresh EEG Data", key="refresh_eeg_button"):
-        st.success("EEG data updated successfully!")
+    # Display prediction
+    with prediction_placeholder.container():
+        st.subheader("🤖 Real-Time Seizure Prediction")
+        st.metric("Predicted Risk", f"{risk_level} ({prediction*100:.2f}%)")
+        st.progress(float(prediction), text=f"{float(prediction)*100:.2f}% Risk Score")
 
-    st.markdown("---")
+        if true_label == 1:
+            st.error("⚠️ Ground Truth: Seizure Detected!")
 
-    st.subheader("🤖 AI-Powered Risk Prediction")
-    st.markdown(f"**Seizure Risk**: {'High' if prediction_value > 0.6 else 'Moderate' if prediction_value > 0.3 else 'Low'} ({prediction_value*100:.2f}%)")
-    
-    col4, col5 = st.columns(2)
-    col4.metric("Seizure Risk", f"{'High' if prediction_value > 0.6 else 'Moderate' if prediction_value > 0.3 else 'Low'} ({prediction_value*100:.2f}%)")
-    col5.progress(float(prediction_value), text=f"{float(prediction_value)*100:.2f}% Risk Level")
-    
-    if st.button("🔄 Update Prediction", key="update_prediction_button"):
-        st.info("AI risk prediction updated.")
-    
-    st.markdown("### 📊 Full Model Prediction (EEG + Wearables)")
-    accuracy = np.random.uniform(0.8, 0.9)
-    st.metric("Prediction Accuracy", f"{accuracy*100:.2f}%")
-    st.progress(accuracy, text=f"{accuracy*100:.2f}% Accuracy")
-    
-    if st.button("🔁 Refresh Full Prediction", key="refresh_full_prediction_button"):
-        st.info("Full model prediction refreshed!")
-    
-    st.markdown("---")
-    
-    st.subheader("⌚ Wearable-Only Prediction")
-    wearable_accuracy = np.random.uniform(0.4, 0.6)
-    st.metric("Accuracy", f"{wearable_accuracy*100:.2f}%")
-    st.progress(wearable_accuracy, text=f"{wearable_accuracy*100:.2f}% Accuracy")
-    
-    if st.button("🔄 Update Wearable Prediction", key="update_wearable_prediction_button"):
-        st.warning("Wearable prediction updated with limited accuracy.")
-    
-    st.markdown("---")
-    
-    st.subheader("🚨 Emergency Alert System")
-    alert_col1, alert_col2 = st.columns(2)
-    with alert_col1:
-        if st.button("📢 Send Manual Alert", key="send_manual_alert_button"):
-            st.error("⚠️ Manual SOS sent!")
-    with alert_col2:
-        if st.button("🧭 Start Auto-SOS Countdown", key="start_auto_sos_button"):
-            st.warning("Auto-SOS initiated. Countdown: 5 seconds...")
-
-    st.markdown("---")
-    
-    st.line_chart(raw_eeg[0, :, 0])
-    
-    time.sleep(1)
+    time.sleep(0.5)
