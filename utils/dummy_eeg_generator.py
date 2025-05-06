@@ -38,13 +38,3 @@ def real_time_eeg_stream(window_sec=1.0, fs=256, interictal_sec=30, ictal_sec=5)
         for _ in range(int(ictal_sec)):
             yield generate_multichannel_eeg(window_sec, fs, seizure=True), 1
             time.sleep(window_sec)
-
-def main():
-    stream = real_time_eeg_stream()
-    for i, (segment, label) in enumerate(stream):
-        print(f"Window {i}: Label={'SEIZURE' if label==1 else 'NON-SEIZURE'} | Segment shape={segment.shape}")
-        if i >= 10:
-            break
-
-if __name__ == '__main__':
-    main()

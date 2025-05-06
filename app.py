@@ -1,12 +1,8 @@
 import streamlit as st
-from datetime import datetime
-from utils.dummy_eeg_generator import real_time_eeg_stream
-from components.preprocessing import preprocess_data_for_model
-from models.model_loader import load_prediction_model
+from utils.dummy_eeg_generator import real_time_eeg_stream, generate_multichannel_eeg  # Import correctly
 import numpy as np
 import pandas as pd
 import time
-
 
 # ✅ Page title and favicon
 st.set_page_config(page_title="NeuraCare", page_icon="assets/logo.png", layout="wide")
@@ -69,23 +65,17 @@ with col4:
         </div>
     """, unsafe_allow_html=True)
 
-
 # ✅ Light Green Section for Brainwave Activity and Feed
 st.markdown("""
     <div style="background-color: #e6f4ea; padding: 20px; border-radius: 10px;">
         <h3>Live Brainwave Activity</h3>
 """, unsafe_allow_html=True)
 
-raw_eeg = generate_dummy_eeg()
+# Use generate_multichannel_eeg instead of generate_dummy_eeg
+raw_eeg = generate_multichannel_eeg(window_sec=1.0, fs=256)
 st.line_chart(raw_eeg[0, :, 0])
 
 # Config 
-max_history = 200  # Show only last 200 points for clarity
-update_interval = 0.1  # Seconds
-
-raw_eeg = generate_dummy_eeg()
-# st.line_chart(raw_eeg[0, :, 0])
-# Config
 max_history = 200  # Show only last 200 points for clarity
 update_interval = 0.1  # Seconds
 
@@ -96,17 +86,13 @@ plot_placeholder = st.empty()
 # Rolling EEG signal buffer
 eeg_history = []
 
-
-
-
-
+# Activity Feed
 st.markdown("<h3>Activity Feed</h3>", unsafe_allow_html=True)
 with st.container():
     st.markdown("- ✅ EEG Connected at 09:45 AM")
     st.markdown("- 📈 AI Training Progressed to 68%")
     st.markdown("- ⚠️ Low seizure risk detected at 10:00 AM")
     st.markdown("- 🎯 Last neurofeedback session: Successful")
-
 
 st.markdown("</div>", unsafe_allow_html=True)
 
