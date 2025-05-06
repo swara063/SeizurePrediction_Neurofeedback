@@ -1,29 +1,29 @@
 import streamlit as st
-from utils.dummy_eeg_generator import real_time_eeg_stream, generate_multichannel_eeg  # Import correctly
+from utils.dummy_eeg_generator import real_time_eeg_stream
 import numpy as np
 import pandas as pd
 import time
 
-# ✅ Page title and favicon
+# Page title and favicon
 st.set_page_config(page_title="NeuraCare", page_icon="assets/logo.png", layout="wide")
 
-# ✅ Inject CSS
+# Inject CSS
 with open("assets/styles.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# ✅ Session State Initialization
+# Session state initialization
 if 'page' not in st.session_state:
     st.session_state.page = 'home'
 
-# ✅ Main Content
+# Main content
 logo_col, title_col = st.columns([1, 6])
 with logo_col:
-    st.image("assets/logo.png", width=60)  # Place your logo image in assets folder
+    st.image("assets/logo.png", width=60)
 with title_col:
     st.markdown("<h1 style='font-size: 50px; margin-bottom: 0;'>NeuraCare</h1>", unsafe_allow_html=True)
     st.subheader("For Seizure Prediction & Brainwave Redirection")
 
-# ✅ Info Box
+# Info box
 st.markdown("""
     <div class="info-box">
         <h3>Welcome to Your Personal Brain Trainer</h3>
@@ -31,10 +31,10 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# ✅ Add space after info box
+# Add space after info box
 st.markdown("<br>", unsafe_allow_html=True)
 
-# ✅ Uniform Metric Boxes
+# Uniform metric boxes
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.markdown("""
@@ -65,26 +65,19 @@ with col4:
         </div>
     """, unsafe_allow_html=True)
 
-# ✅ Light Green Section for Brainwave Activity and Feed
+# Light green section for Brainwave Activity and Feed
 st.markdown("""
     <div style="background-color: #e6f4ea; padding: 20px; border-radius: 10px;">
         <h3>Live Brainwave Activity</h3>
 """, unsafe_allow_html=True)
 
-# Use generate_multichannel_eeg instead of generate_dummy_eeg
-raw_eeg = generate_multichannel_eeg(window_sec=1.0, fs=256)
-st.line_chart(raw_eeg[0, :, 0])
+# Set up real-time EEG stream
+stream = real_time_eeg_stream()
+buffer_size = 1024  # or 512
+eeg_buffer = np.zeros(buffer_size)
 
-# Config 
-max_history = 200  # Show only last 200 points for clarity
-update_interval = 0.1  # Seconds
-
-# Streamlit UI
-st.title("Smooth Real-Time EEG Plot")
+# Plot placeholder
 plot_placeholder = st.empty()
-
-# Rolling EEG signal buffer
-eeg_history = []
 
 # Activity Feed
 st.markdown("<h3>Activity Feed</h3>", unsafe_allow_html=True)
@@ -95,6 +88,21 @@ with st.container():
     st.markdown("- 🎯 Last neurofeedback session: Successful")
 
 st.markdown("</div>", unsafe_allow_html=True)
-
 st.markdown("---")
 st.caption("© 2025 Neurofeedback System. All rights reserved.")
+
+# Real-time loop
+while True:
+    eeg_window, true_label = next(stream)  # shape: (22, 256, 64)
+    display_channel = eeg_window[0, :, 0]  # Take first channel, first feature
+
+    # Update rolling buffer
+    eeg_buffer = np.roll(eeg_buffer, -len(display_channel))
+    eeg_buffer[-len(display_channel):] = display_channel
+
+    # Update plot
+    df = pd.DataFrame({"EEG": eeg_buffer})
+    plot_placeholder.line_chart(df, use_container_width=True)
+
+    # Sleep between updates
+    time.sleep(0.3)  # Adjust as needed
